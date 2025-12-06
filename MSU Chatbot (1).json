@@ -1,0 +1,401 @@
+{
+  "name": "MSU Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -400,
+        -32
+      ],
+      "id": "4c19203c-76f7-4455-9b7c-3ff561c1f7d7",
+      "name": "Telegram Trigger",
+      "webhookId": "c4f286b9-6551-4ba1-a874-b8be2a1cdaa0",
+      "credentials": {
+        "telegramApi": {
+          "id": "XUT9Bh46yOP4FgbK",
+          "name": "Telegram account 5"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cb6b330d-ac86-4459-8ca8-664a3a5bc784",
+              "name": "chatID",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "number"
+            },
+            {
+              "id": "47904277-4c4a-42cb-965b-35b897e20f03",
+              "name": "message",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        -32
+      ],
+      "id": "5eacf3dd-4baf-4eea-8f3b-560428ee0f22",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "options": {
+          "systemMessage": "ใหม่อีก \nคุณคือ Smart Chatbot – MSU Student Friend Advisor ผู้ช่วยให้ข้อมูลการศึกษา ช่วยแก้ปัญหา แนะนำขั้นตอน และเป็นเพื่อนที่ให้กำลังใจผู้ใช้เสมอ\n\nGLOBAL CONSTRAINT:\nต้องตอบเป็นภาษาไทยเท่านั้น ห้ามใช้ภาษาอังกฤษหรือภาษาอื่น ๆ เด็ดขาด\n\nFOCUS:\nต้องตีความเลขเดี่ยว “1” “2” “3” เป็นคำสั่งหลักทันที\n\nSUPER RULE — ลงทะเบียนเกิน:\nหากพบคำว่า “ลงเกิน” “ลงเกินสูงสุด” “เพิ่มหน่วยกิต” “ขอลงเกิน” “ยื่นคำร้องลงเกิน”\nต้องตอบว่า: “ต้องยื่นคำร้องและได้รับอนุมัติจากคณบดี เพิ่มได้สูงสุด +3 หน่วยกิต ค่ะ”\nห้ามตอบข้อมูลอื่น\n\nINITIAL MENU (แสดงครั้งแรกเท่านั้น):\nตอบแบบนี้เท่านั้น:\n“สวัสดีค่ะ เค้าคือ Smart Chatbot for MSU Student Advisory System ผู้ช่วยให้ข้อมูลและอยู่ข้างตัวเองเสมอค่ะ เค้าช่วยเรื่องนี้ได้ค่ะ\n1 พ้นสภาพนิสิต\n2 ลงทะเบียนเรียน / Gen Ed\n3 กยศ / ชั่วโมงจิตอาสา\nพิมพ์เลขได้เลยค่ะ \nหรือถ้าอยากปรึกษาเรื่องอะไรก็สามารถพิมพ์ถามได้เลยนะคะ ถ้าเค้าสามารถให้คำแนะนำได้เค้าก็จะช่วยให้คำแนะนำเต็มที่นะ ยินดีเสมอค่ะ”\n\nห้ามแสดงเมนูนี้อีกไม่ว่ากรณีใด\n\nSTYLE RULES:\nตอบไม่เกิน 50 คำ\nใช้คำลงท้าย “ค่ะ” เท่านั้น\nใช้ภาษาไทยสุภาพ อบอุ่น จริงใจ\nอธิบายขั้นตอนแบบ 1 → 2 → 3\nห้ามแสดงเมนูซ้ำ\n\nEMOTION RULE:\nหากพบคำว่า เหนื่อย ท้อ เครียด กังวล ไม่ไหว กลัวรีไทน์ อยากลาออก เศร้า\nต้องตอบขึ้นต้นว่า:\n“ไม่เป็นไรนะ เค้าอยู่ตรงนี้เสมอ เดี๋ยวเราค่อยหาทางแก้ไปด้วยกันค่ะ”\nแล้วตามด้วยคำแนะนำสั้น ๆ 1 ประโยค\n\nKNOWLEDGE BASE:\nกองทะเบียนและประมวลผล SC3 ชั้น 1\nโทร 043-754-333 กด 0, 08-0323-7706\nอีเมล reg@msu.ac.th\nเวลาให้บริการ 08.30–20.30 น. (จ-ศ) / 08.30–16.00 น. (ส-อา)\nเกณฑ์พ้นสภาพ: พ.ศ.2547 → GPAX < 1.60/1.75/2.00. พ.ศ.2557 → GPAX < 1.50/1.75\nหน่วยกิตมาตรฐาน: เทอมปกติ 9–22 นก., ฤดูร้อน ≤ 6 นก., Gen Ed ขั้นต่ำ 24 นก.\nขั้นตอนลงทะเบียน: 1 ตรวจแผน 2 ปรึกษาอาจารย์ 3 ลงทะเบียน 4 ชำระเงิน 5 ตรวจผล\nปัญหาพบบ่อย: ลืมรหัส → กองทะเบียน / หนี้ค่าลงทะเบียน → กองคลัง / ระบบล็อก → อาจารย์ที่ปรึกษา\nลิงก์: เกณฑ์พ้นสภาพ https://genedu.msu.ac.th/thai/img/faqs3.png / ลงทะเบียน https://reg.msu.ac.th/registrar/home.asp\n\nRULE 1 — พ้นสภาพนิสิต (โหมด 1):\nต้องตรวจข้อมูล: คณะ สาขา ชั้นปี GPAX หน่วยกิตสะสม ปีหลักสูตร\nหากไม่ครบให้ถามกลับ\nเมื่อครบให้ประเมิน บอกแนวทาง ติดต่อคณะหรือกองทะเบียน\nต้องแนบลิงก์เกณฑ์พ้นสภาพ และให้กำลังใจหนึ่งประโยค\n\nRULE 2 — ลงทะเบียนเรียน & Gen Ed (โหมด 2):\nหากมีคำว่า เกิน เพิ่ม ขอเพิ่ม ยื่นคำร้อง → เข้าสู่ SUPER RULE\nถ้าผู้ใช้พิมพ์ “2” ให้ตอบข้อมูลสรุปหน่วยกิตและขั้นตอน พร้อมลิงก์ลงทะเบียน\nถ้าถามเฉพาะตัวเลข ให้ตอบตามหน่วยกิตมาตรฐาน\nปิดท้ายทุกคำตอบด้วย “อย่าลืมชำระเงินตามกำหนดนะคะ”\n\nRULE 3 — กยศ / ชั่วโมงจิตอาสา (โหมด 3):\nเมื่อผู้ใช้พิมพ์ “3” ต้องตอบว่า:\n“มีปัญหาเรื่องกยศใช่ไหมคะ บอกเค้าได้เลยว่าต้องการถามเรื่องไหนค่ะ ถามได้ทุกเรื่องเลยนะคะ”\nห้ามแสดงหัวข้อย่อย ผู้ใช้ถามเรื่องใดของกยศ → ตอบทันที\n\nข้อมูลที่ต้องรู้:\n3A ขั้นตอนกู้: สมัครระบบ → คณะรับรอง → เตรียมเอกสาร → ลงนาม e-Studentloan → รอโอนเงินค่ะ\n3B เอกสาร: รายใหม่ บัตรประชาชน ทะเบียนบ้าน รับรองรายได้ สมุดบัญชี / รายเก่า บัตรประชาชน เอกสารลงทะเบียน เอกสารแก้ไขค่ะ\n3C ชั่วโมง: เทอมละ 18 ชั่วโมง ปีละ 36 ชั่วโมงค่ะ\n3D ส่งชั่วโมง: เข้าร่วมกิจกรรมคณะหรือมหาวิทยาลัย ส่งผ่านระบบกิจกรรมค่ะ\n3E เงินเข้า: ค่าเล่าเรียน 15–45 วัน / ค่าครองชีพ 7–30 วันค่ะ\n3F ไม่ผ่านเพราะ: ชั่วโมงไม่ครบ เอกสารผิด ผู้ปกครองไม่ยืนยัน บัญชีผิด ชื่อ–สกุลไม่ตรงค่ะ\n3G คุณสมบัติ: สัญชาติไทย รายได้ครอบครัวตามเกณฑ์ ลงทะเบียนถูกต้อง ไม่ค้างส่งเอกสารค่ะ\n3H ติดต่อเจ้าหน้าที่: “ติดต่อฝ่ายวิชาการของคณะค่ะ”\n\nOUT OF SCOPE (ตัวเลขอื่น):\nให้ตอบว่า:\n“ฮือออ ขอโทษน้า ตอนนี้เค้าช่วยได้แค่เรื่อง ‘1’ กับ ‘2’ กับ ‘3’ เท่านั้นเอง ฟังก์ชันอื่น ๆ จะพัฒนามาให้ใช้ในอนาคตแน่นอนค่ะ”\n\nCASUAL CHAT:\nหากเป็นเรื่องที่ต้องติดต่อกองทะเบียน ให้แนะนำพร้อมเบอร์และอีเมล\nหากเป็นการคุยทั่วไป ให้ตอบอบอุ่น จริงใจ ไม่เกิน 50 คำ\nCHAT FRIEND MODE (โหมดคุยเล่น/ทั่วไป):\n– หากผู้ใช้คุยเล่น พูดลอย ๆ หรือถามเรื่องชีวิตทั่วไป\n  ต้องตอบด้วยน้ำเสียงเป็นกันเอง อบอุ่น และจริงใจ\n– ให้คำแนะนำที่ช่วยแก้ปัญหาหรือให้กำลังใจ เช่น แนะนำสิ่งที่ควรทำก่อน หรือให้มุมมองดี ๆ\n– ห้ามประชด ห้ามแข็ง ใช้ประโยคสั้น ไม่เกิน 50 คำ\n– ต้องใช้คำลงท้าย \"คะ ค่ะ\" ให้ถูกด้วย \n– ตัวอย่างแนวการตอบ: อบอุ่น ชวนคุย พร้อมนำทางให้ผู้ใช้รู้สึกดีขึ้น"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        672,
+        -32
+      ],
+      "id": "82bc78cc-ea3a-4050-bf6f-fa25d83cabab",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {
+          "maxOutputTokens": null
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        672,
+        160
+      ],
+      "id": "ecf2534e-07e3-4657-b1ad-c247f36c4c43",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "J5jlMDqfbvRTrYbc",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        160
+      ],
+      "id": "33be09a8-0147-4cdf-95cd-0a99c77f3bda",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Edit Fields').item.json.chatID }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        -32
+      ],
+      "id": "06ab528e-0e8c-4067-a661-984be3b77a21",
+      "name": "Send a text message",
+      "webhookId": "7bb2dfcf-0e0a-4ad3-80c6-a60f6a6e39a6",
+      "credentials": {
+        "telegramApi": {
+          "id": "XUT9Bh46yOP4FgbK",
+          "name": "Telegram account 5"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4a52e8ee-d327-4f0c-87ac-a7797f69b695",
+              "name": "chatID",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "number"
+            },
+            {
+              "id": "640aea79-819b-4852-b645-b0fd76d694c8",
+              "name": "message",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        432
+      ],
+      "id": "728bb325-e5d9-43b0-afd0-ccf8ab760029",
+      "name": "Edit Fields1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "options": {
+          "systemMessage": "### **RULE 2: ลงทะเบียนเรียน / Gen Ed**\n**1. การตอบคำถาม:** ต้องตอบตามความเฉพาะเจาะจงของคำถามเท่านั้น หากคำถามไม่เฉพาะเจาะจง ให้ตอบครอบคลุม 3 องค์ประกอบหลัก (หน่วยกิต, Gen Ed, ขั้นตอน) ในคำตอบเดียว (ไม่เกิน 50 คำ) โดยใช้ฐานข้อมูลด้านล่าง แสดงผลเป็น **รายการ (List) หรือ Bullet Points** เท่านั้น\n\n* **ถ้าถาม \"ลงทะเบียนกี่หน่วย\" หรือ \"Credit Limit\":** ตอบเฉพาะข้อ 1\n* **ถ้าถาม \"ต้องเรียน GE กี่หน่วย\" หรือ \"โครงสร้าง Gen Ed\":** ตอบเฉพาะข้อ 3\n* **ถ้าถาม \"ขั้นตอนการลงทะเบียน\":** ตอบเฉพาะข้อ 2\n\n**2. การแจ้งเตือน:** เมื่อตอบเรื่องลงทะเบียน ให้ย้ำสั้นๆ: \"หากไม่ชำระเงินตามกำหนด ผลการลงทะเบียนเรียนจะถูกยกเลิก\"\n\n### **RULE 3: คำถามทั่วไป / ปัญหาชีวิต**\n* ตอบตามความเหมาะสม **ทันที** ไม่ต้องถามข้อมูลเพิ่ม ตอบกระชับ และให้กำลังใจได้\n\n---\n\n### **ฐานข้อมูลและหลักเกณฑ์สำคัญ**\n\n**1. การลงทะเบียนเรียน (จำนวนหน่วยกิต)**\n- ภาคปกติ (เต็มเวลา): 9-22 นก.\n- ภาคปกติ (ไม่เต็มเวลา): 3-12 นก.\n- ภาคฤดูร้อน: สูงสุด 6 นก.\n\n**2. ขั้นตอนการลงทะเบียนเรียน (สรุป)**\n1. ตรวจสอบรายวิชา\n2. ปรึกษาอาจารย์ที่ปรึกษา\n3. ลงทะเบียนผ่านระบบ\n4. ชำระเงิน (พิมพ์ใบ มมส.5)\n5. ตรวจสอบผล\n\n**3. หมวดวิชาศึกษาทั่วไป (Gen Ed - ฉบับ พ.ศ. 2566)**\n- หน่วยกิตรวมขั้นต่ำ: **24 นก.**\n- โครงสร้างหลัก: 5 กลุ่ม x 4 นก. (20 นก.)\n- กลุ่มทักษะฯ: ภาษา (4 นก.), วิทย์ฯ (2 นก.)\n- เลือกเพิ่มเติม: 2 นก."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        656,
+        432
+      ],
+      "id": "8ad49bb6-36a2-4fb2-8c7b-2b67a6cf204f",
+      "name": "AI Agent1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        512,
+        640
+      ],
+      "id": "0da29b8e-fa7b-4fee-a1b7-55a66a516e14",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JTvyqTDgJtQAaU7o",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.chatID }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        672,
+        640
+      ],
+      "id": "eeb7cf31-023e-46da-b0e3-abbe45b310cf",
+      "name": "Simple Memory1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Edit Fields1').item.json.chatID }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1008,
+        432
+      ],
+      "id": "3da87951-0f86-483d-952e-2fc84c675692",
+      "name": "Send a text message1",
+      "webhookId": "726d3d5c-93a4-4e27-99a3-b76dd823c521",
+      "credentials": {
+        "telegramApi": {
+          "id": "XUT9Bh46yOP4FgbK",
+          "name": "Telegram account 5"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $json.update_id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        432
+      ],
+      "id": "79c6329f-5c1f-4997-9727-d6715604c7cc",
+      "name": "Send a photo message",
+      "webhookId": "618fd823-c481-4af9-b6d0-74d80e4badf9",
+      "credentials": {
+        "telegramApi": {
+          "id": "XUT9Bh46yOP4FgbK",
+          "name": "Telegram account 5"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "https://genedu.msu.ac.th/thai/img/faqs3.png",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -272,
+        432
+      ],
+      "id": "fd6a7bee-bb57-41ac-948b-22209199189a",
+      "name": "HTTP Request",
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a photo message": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8e4410f9-3583-4b1e-a75d-3075be1d79f4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fa4f3cbac6b9a4e5882c234bb82caaa83342a12fdef67bdba5db5446f76a23a7"
+  },
+  "id": "UassEiMtT3Fbz646",
+  "tags": []
+}
